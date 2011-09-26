@@ -23,7 +23,9 @@
  * @namespace
  */
 namespace ZendTest\Service\Rackspace\Servers;
-use Zend\Service\Rackspace\Servers;
+
+use Zend\Service\Rackspace\Servers,
+    Zend\Http\Client\Adapter\Test as HttpTest;
 
 
 /**
@@ -35,14 +37,14 @@ use Zend\Service\Rackspace\Servers;
  * @group      Zend_Service
  * @group      Zend_Service_Amazon
  */
-class OnlineTest extends \PHPUnit_Framework_TestCase
+class OfflineTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Reference to Rackspace Servers object
      *
      * @var Zend\Service\Rackspace\Servers
      */
-    protected static $rackspace;
+    protected $rackspace;
     /**
      * Check if the resize was successfully done
      * 
@@ -88,13 +90,13 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
     /**
      * Socket based HTTP client adapter
      *
-     * @var Zend_Http_Client_Adapter_Socket
+     * @var Zend\Http\Client\Adapter\Test
      */
-    protected static $httpClientAdapterSocket;
+    protected $httpClientAdapterTest;
     /**
      * SetUpBerofeClass
      */
-    public static function setUpBeforeClass()
+    public function setUp()
     {
         if (!constant('TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_ENABLED')) {
             self::markTestSkipped('Zend\Service\Rackspace\Servers online tests are not enabled');
@@ -103,43 +105,33 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
             self::markTestSkipped('Constants User and Key have to be set.');
         }
 
-        self::$rackspace = new Servers(TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_USER,
+        $this->rackspace = new Servers(TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_USER,
                                        TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_KEY);
 
-        self::$httpClientAdapterSocket = new \Zend\Http\Client\Adapter\Socket();
+        $this->httpClientAdapterTest = new HttpTest();
 
-        self::$rackspace->getHttpClient()
-                        ->setAdapter(self::$httpClientAdapterSocket);
+        $this->rackspace->getHttpClient()
+                        ->setAdapter($this->httpClientAdapterTest);
+        
+        // authentication (from a file)
+        $this->httpClientAdapterTest->setResponse(self::loadResponse('../../_files/testAuthenticate'));
+        $this->assertTrue($this->rackspace->authenticate(),'Authentication failed'); 
+        
+        // load the HTTP response (from a file)
+        $this->httpClientAdapterTest->setResponse($this->loadResponse($this->getName()));   
+       
     }
     /**
-     * Sets up this test case
+     * Utility method for returning a string HTTP response, which is loaded from a file
      *
-     * @return void
+     * @param  string $name
+     * @return string
      */
-    public function setUp()
+    protected function loadResponse($name)
     {
-        // terms of use compliance: safe delay between each test
-        sleep(2);
+        return @file_get_contents(__DIR__ . '/_files/' . $name . '.response');
     }
     
-    /**
-     * Wait n seconds for status change
-     * 
-     * @param string  $status 
-     * @param integer $timeout
-     * @return boolean
-     */
-    protected static function waitForStatus($status,$timeout=TESTS_ZEND_SERVICE_RACKSPACE_TIMEOUT)
-    {
-        $info['status']= null;
-        $i=0;
-        while ((strtoupper($info['status'])!==strtoupper($status)) && ($i<$timeout)) {
-            $info= self::$rackspace->getServer(self::$serverId)->toArray();
-            $i+=5;
-            sleep(5);
-        }
-        return ($i<$timeout);
-    }
     /**
      * Test constants
      */
@@ -148,14 +140,6 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10240, Servers::LIMIT_FILE_SIZE);
         $this->assertEquals(5,Servers::LIMIT_NUM_FILE);
         $this->assertEquals('json',Servers::API_FORMAT);
-    }
-    /**
-     * Test authentication
-     */
-    public function testAuthentication()
-    {
-        $this->filename= __METHOD__;
-        $this->assertTrue(self::$rackspace->authenticate());
     }
     /**
      * Test create server
@@ -167,19 +151,19 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
             'imageId'  => TESTS_ZEND_SERVICE_RACKSPACE_SERVER_IMAGEID,
             'flavorId' => TESTS_ZEND_SERVICE_RACKSPACE_SERVER_FLAVORID
         );
-        $server= self::$rackspace->createServer($data);
+        $server= $this->rackspace->createServer($data);
+        
         $this->assertTrue($server!==false);
         self::$serverId= $server->getId();
-        self::$adminPass= $server->getAdminPass();
         $this->assertEquals(TESTS_ZEND_SERVICE_RACKSPACE_SERVER_NAME,$server->getName());
-        $this->assertTrue(self::waitForStatus('active'));
+        $this->assertEquals(self::$serverId,20247478);
     }
     /**
      * Test Get Server
      */
     public function testGetServer()
     {
-        $server= self::$rackspace->getServer(self::$serverId);
+        $server= $this->rackspace->getServer(self::$serverId);
         $this->assertTrue($server!==false);
         $this->assertEquals(TESTS_ZEND_SERVICE_RACKSPACE_SERVER_NAME,$server->getName());
     }
@@ -188,7 +172,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testListServers()
     {
-        $servers= self::$rackspace->listServers();
+        $servers= $this->rackspace->listServers();
         $this->assertTrue($servers!==false);
     }
     /**
@@ -196,14 +180,14 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangeServerName()
     {
-        $this->assertTrue(self::$rackspace->changeServerName(self::$serverId,TESTS_ZEND_SERVICE_RACKSPACE_SERVER_NAME.'_renamed'));
+        $this->assertTrue($this->rackspace->changeServerName(self::$serverId,TESTS_ZEND_SERVICE_RACKSPACE_SERVER_NAME.'_renamed'));
     }
     /**
      * Test rechange server name
      */
     public function testRechangeServerName()
     {
-        $this->assertTrue(self::$rackspace->changeServerName(self::$serverId,TESTS_ZEND_SERVICE_RACKSPACE_SERVER_NAME));
+        $this->assertTrue($this->rackspace->changeServerName(self::$serverId,TESTS_ZEND_SERVICE_RACKSPACE_SERVER_NAME));
     }
     /**
      * Test change admin password
@@ -211,14 +195,14 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
     public function testChangeServerPassword()
     {
         self::$adminPass= md5(time().rand());
-        $this->assertTrue(self::$rackspace->changeServerPassword(self::$serverId,self::$adminPass));
+        $this->assertTrue($this->rackspace->changeServerPassword(self::$serverId,self::$adminPass));
     }
     /**
      * Test get server IP
      */
     public function testGetServerIp()
     {
-        $addresses= self::$rackspace->getServerIp(self::$serverId);
+        $addresses= $this->rackspace->getServerIp(self::$serverId);
         $this->assertTrue(!empty($addresses['public']) && is_array($addresses['public']));
         $this->assertTrue(!empty($addresses['private']) && is_array($addresses['private']));
     }
@@ -227,7 +211,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetServerPublicIp()
     {
-        $public= self::$rackspace->getServerPublicIp(self::$serverId);
+        $public= $this->rackspace->getServerPublicIp(self::$serverId);
         $this->assertTrue(!empty($public) && is_array($public));
     }
     /**
@@ -235,7 +219,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetServerPrivateIp()
     {
-        $private= self::$rackspace->getServerPrivateIp(self::$serverId);
+        $private= $this->rackspace->getServerPrivateIp(self::$serverId);
         $this->assertTrue(!empty($private) && is_array($private));
     }
     /**
@@ -243,23 +227,21 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testSoftRebootServer()
     {
-        $this->assertTrue(self::$rackspace->rebootServer(self::$serverId));
-        $this->assertTrue(self::waitForStatus('active'));
+        $this->assertTrue($this->rackspace->rebootServer(self::$serverId));
     }
     /**
      * Test hard reboot the server
      */
     public function testHardRebootServer()
     {
-        $this->assertTrue(self::$rackspace->rebootServer(self::$serverId,true));
-        $this->assertTrue(self::waitForStatus('active'));
+        $this->assertTrue($this->rackspace->rebootServer(self::$serverId,true));
     }
     /**
      * Test rebuild the server image
      */
     public function testRebuildServer()
     {
-        $this->assertTrue(self::$rackspace->rebuildServer(self::$serverId,TESTS_ZEND_SERVICE_RACKSPACE_SERVER_NEW_IMAGEID));
+        $this->assertTrue($this->rackspace->rebuildServer(self::$serverId,TESTS_ZEND_SERVICE_RACKSPACE_SERVER_NEW_IMAGEID));
     }
     /**
      * Test resize server
@@ -287,7 +269,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testListFlavors()
     {
-        self::$flavors= self::$rackspace->listFlavors(true);
+        self::$flavors= $this->rackspace->listFlavors(true);
         $this->assertTrue(is_array(self::$flavors) && !empty(self::$flavors));
         $this->assertTrue(isset(self::$flavors[0]['id']));
     }
@@ -296,7 +278,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFlavor()
     {
-        $flavor= self::$rackspace->getFlavor(self::$flavors[0]['id']);
+        $flavor= $this->rackspace->getFlavor(self::$flavors[0]['id']);
         $this->assertTrue(is_array($flavor) && !empty($flavor));
         $this->assertEquals($flavor['id'],self::$flavors[0]['id']);
     }
@@ -305,7 +287,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testListImages()
     {
-        self::$images= self::$rackspace->listImages(true);
+        self::$images= $this->rackspace->listImages(true);
         $this->assertTrue(count(self::$images)>0);
         $image= self::$images[0];
         $imageId= $image->getId();
@@ -317,7 +299,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
     public function testGetImage()
     {
         $image= self::$images[0];
-        $getImage= self::$rackspace->getImage($image->getId());
+        $getImage= $this->rackspace->getImage($image->getId());
         $this->assertEquals($getImage->getId(),$image->getId());
     }
     /**
@@ -325,7 +307,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetImageInfo()
     {
-        $image= self::$rackspace->getImage(self::$images[0]->getId())->toArray();
+        $image= $this->rackspace->getImage(self::$images[0]->getId())->toArray();
         $this->assertTrue(is_array($image) && !empty($image));
         $this->assertEquals($image['id'],self::$images[0]->getId());
     }
@@ -334,7 +316,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateImage()
     {
-        $image= self::$rackspace->createImage(self::$serverId, TESTS_ZEND_SERVICE_RACKSPACE_SERVER_IMAGE_NAME);
+        $image= $this->rackspace->createImage(self::$serverId, TESTS_ZEND_SERVICE_RACKSPACE_SERVER_IMAGE_NAME);
         if ($image!==false) {
             self::$imageId= $image->getId();
         }
@@ -347,7 +329,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
     public function testDeleteImage()
     {
         if (isset(self::$imageId)) {
-            $this->assertTrue(self::$rackspace->deleteImage(self::$imageId));
+            $this->assertTrue($this->rackspace->deleteImage(self::$imageId));
         } else {
             $this->markTestSkipped('Delete image skipped because the new image has not been created');
         }
@@ -378,7 +360,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateSharedIpGroup()
     {
-        self::$sharedIpGroup= self::$rackspace->createSharedIpGroup(TESTS_ZEND_SERVICE_RACKSPACE_SERVER_SHARED_IP_GROUP_NAME, self::$serverId);
+        self::$sharedIpGroup= $this->rackspace->createSharedIpGroup(TESTS_ZEND_SERVICE_RACKSPACE_SERVER_SHARED_IP_GROUP_NAME, self::$serverId);
         $this->assertTrue(self::$sharedIpGroup!==false);
         $this->assertEquals(self::$sharedIpGroup->getName(),TESTS_ZEND_SERVICE_RACKSPACE_SERVER_SHARED_IP_GROUP_NAME);
     }
@@ -387,7 +369,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testListSharedIpGroups()
     {
-        $groups= self::$rackspace->listSharedIpGroups(true);
+        $groups= $this->rackspace->listSharedIpGroups(true);
         $this->assertTrue($groups!==false);
     }
     /**
@@ -396,7 +378,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
     public function testGetSharedIpGroup()
     {
         $groupId= self::$sharedIpGroup->getId();
-        $group= self::$rackspace->getSharedIpGroup($groupId);
+        $group= $this->rackspace->getSharedIpGroup($groupId);
         $this->assertTrue($group!==false);
         $this->assertEquals($group->getId(), $groupId);   
     }
@@ -405,36 +387,13 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteSharedIpGroup()
     {
-        $this->assertTrue(self::$rackspace->deleteSharedIpGroup(self::$sharedIpGroup->getId())); 
+        $this->assertTrue($this->rackspace->deleteSharedIpGroup(self::$sharedIpGroup->getId())); 
     }
     /**
      * Test delete server
      */
     public function testDeleteServer()
     {
-        $this->assertTrue(self::$rackspace->deleteServer(self::$serverId));
-    }
-}
-
-
-/**
- * @category   Zend
- * @package    Zend\Service\Rackspace\Servers
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend\Service
- * @group      Zend\Service\Rackspace
- */
-class Skip extends \PHPUnit_Framework_TestCase
-{
-    public function setUp()
-    {
-        $this->markTestSkipped('Zend\Service\Rackspace\Servers online tests not enabled with an access key ID in '
-                             . 'TestConfiguration.php');
-    }
-
-    public function testNothing()
-    {
+        $this->assertTrue($this->rackspace->deleteServer(self::$serverId));
     }
 }

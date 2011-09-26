@@ -41,97 +41,95 @@ use Zend\Service\Rackspace\Files as RackspaceFiles,
  * @group      Zend\Service\Rackspace
  * @group      Zend\Service\Rackspace\Files
  */
-class OfflineTest extends \PHPUnit_Framework_TestCase
+class OnlineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Reference to RackspaceFiles
+     * Reference to Rackspace Servers object
      *
-     * @var Zend\Service\Rackspace\Files
+     * @var Zend\Service\Rackspace\Servers
      */
-    protected $rackspace;
+    protected static $rackspace;
     /**
-     * HTTP client adapter for testing
+     * Socket based HTTP client adapter
      *
-     * @var Zend\Http\Client\Adapter\Test
+     * @var Zend_Http_Client_Adapter_Socket
      */
-    protected $httpClientAdapterTest;
+    protected static $httpClientAdapterSocket;
     /**
      * Metadata for container/object test
      * 
      * @var array 
      */
-    protected $metadata;
+    protected static $metadata;
     /**
      * Another metadata for container/object test
      * 
      * @var array 
      */
-    protected $metadata2;  
+    protected static $metadata2;
+    /**
+     * SetUpBerofeClass
+     */
+    public static function setUpBeforeClass()
+    {
+        if (!constant('TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_ENABLED')) {
+            self::markTestSkipped('Zend\Service\Rackspace\TFiles online tests are not enabled');
+        }
+        if(!defined('TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_USER') || !defined('TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_KEY')) {
+            self::markTestSkipped('Constants User and Key have to be set.');
+        }
+
+        self::$rackspace = new RackspaceFiles(TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_USER,
+                                       TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_KEY);
+
+        self::$httpClientAdapterSocket = new \Zend\Http\Client\Adapter\Socket();
+
+        self::$rackspace->getHttpClient()
+                        ->setAdapter(self::$httpClientAdapterSocket);
+        
+        self::$metadata =  array (
+            'foo'  => 'bar',
+            'foo2' => 'bar2'
+        );
+        
+        self::$metadata2 = array (
+            'hello' => 'world'
+        );
+    }
     /**
      * Set up the test case
      *
      * @return void
      */
     public function setUp()
-    {  
-        $this->rackspace = new RackspaceFiles(TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_USER,
-                                       TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_KEY);
-        
-        $this->httpClientAdapterTest = new HttpTest();
-        
-        $this->rackspace->getHttpClient()->setAdapter($this->httpClientAdapterTest);
-        
-        // authentication (from a file)
-        $this->httpClientAdapterTest->setResponse(self::loadResponse('../../_files/testAuthenticate'));
-        $this->assertTrue($this->rackspace->authenticate(),'Authentication failed'); 
-        
-        $this->metadata =  array (
-            'foo'  => 'bar',
-            'foo2' => 'bar2'
-        );
-        
-        $this->metadata2 = array (
-            'hello' => 'world'
-        );
-        
-        // load the HTTP response (from a file)
-        $this->httpClientAdapterTest->setResponse($this->loadResponse($this->getName()));    
-    }
-    
-    /**
-     * Utility method for returning a string HTTP response, which is loaded from a file
-     *
-     * @param  string $name
-     * @return string
-     */
-    protected function loadResponse($name)
     {
-        return file_get_contents(__DIR__ . '/_files/' . $name . '.response');
+        // terms of use compliance: safe delay between each test
+        sleep(1);
     }
     
     public function testCreateContainer()
     {
-        $container= $this->rackspace->createContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,$this->metadata);
+        $container= self::$rackspace->createContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,self::$metadata);
         $this->assertTrue($container!==false);
         $this->assertEquals($container->getName(),TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
     }
 
     public function testGetCountContainers()
     {
-        $num= $this->rackspace->getCountContainers();
+        $num= self::$rackspace->getCountContainers();
         $this->assertTrue($num>0);
     }
     
     public function testGetContainer()
     {
-        $container= $this->rackspace->getContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
+        $container= self::$rackspace->getContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
         $this->assertTrue($container!==false);
         $this->assertEquals($container->getName(),TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
     }
     
     public function testGetContainers()
     {
-        $containers= $this->rackspace->getContainers();
+        $containers= self::$rackspace->getContainers();
         $this->assertTrue($containers!==false);
         $found=false;
         foreach ($containers as $container) {
@@ -145,16 +143,16 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     
     public function testGetMetadataContainer()
     {
-        $data= $this->rackspace->getMetadataContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
+        $data= self::$rackspace->getMetadataContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
         $this->assertTrue($data!==false);
         $this->assertEquals($data['name'],TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
-        $this->assertEquals($data['metadata'],$this->metadata);
+        $this->assertEquals($data['metadata'],self::$metadata);
         
     }
     
     public function testGetInfoAccount()
     {
-        $data= $this->rackspace->getInfoAccount();
+        $data= self::$rackspace->getInfoAccount();
         $this->assertTrue($data!==false);
         $this->assertTrue($data['tot_containers']>0);
     }
@@ -162,26 +160,24 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     public function testStoreObject()
     {
         $content= 'This is a test!';
-        $result= $this->rackspace->storeObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME, 
+        $result= self::$rackspace->storeObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME, 
                                                TESTS_ZEND_SERVICE_RACKSPACE_OBJECT_NAME,
                                                $content,
-                                               $this->metadata);
+                                               self::$metadata);
         $this->assertTrue($result);
     }
     
     public function testGetObject()
     {
-        $object= $this->rackspace->getObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME, 
+        $object= self::$rackspace->getObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME, 
                                              TESTS_ZEND_SERVICE_RACKSPACE_OBJECT_NAME);
         $this->assertTrue($object!==false);
         $this->assertEquals($object->getName(),TESTS_ZEND_SERVICE_RACKSPACE_OBJECT_NAME);
-        $this->assertEquals($object->getSize(),15);
-        $this->assertEquals($object->getMetadata(),$this->metadata);
     }
 
     public function testCopyObject()
     {
-        $result= $this->rackspace->copyObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
+        $result= self::$rackspace->copyObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
                                               TESTS_ZEND_SERVICE_RACKSPACE_OBJECT_NAME,
                                               TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
                                               TESTS_ZEND_SERVICE_RACKSPACE_OBJECT_NAME.'-copy');
@@ -190,7 +186,7 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
 
     public function testGetObjects()
     {
-        $objects= $this->rackspace->getObjects(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
+        $objects= self::$rackspace->getObjects(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
         $this->assertTrue($objects!==false);
         
         $this->assertEquals($objects[0]->getName(),TESTS_ZEND_SERVICE_RACKSPACE_OBJECT_NAME);
@@ -199,37 +195,37 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     
     public function testGetSizeContainers()
     {
-        $size= $this->rackspace->getSizeContainers();
+        $size= self::$rackspace->getSizeContainers();
         $this->assertTrue($size!==false);
         $this->assertTrue(is_int($size));
     }
     
     public function testGetCountObjects()
     {
-        $count= $this->rackspace->getCountObjects();
+        $count= self::$rackspace->getCountObjects();
         $this->assertTrue($count!==false);
         $this->assertTrue(is_int($count));
     }
     
     public function testSetMetadataObject()
     {
-        $result= $this->rackspace->setMetadataObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
+        $result= self::$rackspace->setMetadataObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
                                                      TESTS_ZEND_SERVICE_RACKSPACE_OBJECT_NAME,
-                                                     $this->metadata2);
+                                                     self::$metadata2);
         $this->assertTrue($result);
     }
     
     public function testGetMetadataObject()
     {
-        $data= $this->rackspace->getMetadataObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
+        $data= self::$rackspace->getMetadataObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
                                                    TESTS_ZEND_SERVICE_RACKSPACE_OBJECT_NAME);
         $this->assertTrue($data!==false);
-        $this->assertEquals($data['metadata'],$this->metadata2);
+        $this->assertEquals($data['metadata'],self::$metadata2);
     }
     
     public function testEnableCdnContainer()
     {
-        $data= $this->rackspace->enableCdnContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
+        $data= self::$rackspace->enableCdnContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
         $this->assertTrue($data!==false);
         $this->assertTrue(is_array($data));
         $this->assertTrue(!empty($data['cdn_uri']));
@@ -238,7 +234,7 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     
     public function testGetCdnContainers()
     {
-        $containers= $this->rackspace->getCdnContainers();
+        $containers= self::$rackspace->getCdnContainers();
         $this->assertTrue($containers!==false);
         $found= false;
         foreach ($containers as $container) {
@@ -252,26 +248,26 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     
     public function testUpdateCdnContainer()
     {
-        $data= $this->rackspace->updateCdnContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,null,false);
+        $data= self::$rackspace->updateCdnContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,null,false);
         $this->assertTrue($data!==false);
     }
 
     
     public function testDeleteObject()
     {
-        $this->assertTrue($this->rackspace->deleteObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
+        $this->assertTrue(self::$rackspace->deleteObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
                                                          TESTS_ZEND_SERVICE_RACKSPACE_OBJECT_NAME));
     }
     
     public function testDeleteObject2()
     {
-        $this->assertTrue($this->rackspace->deleteObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
+        $this->assertTrue(self::$rackspace->deleteObject(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
                                                          TESTS_ZEND_SERVICE_RACKSPACE_OBJECT_NAME.'-copy'));
     }
     
     public function testDeleteContainer()
     {
-        $this->assertTrue($this->rackspace->deleteContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME));
+        $this->assertTrue(self::$rackspace->deleteContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME));
     }
   
 }
