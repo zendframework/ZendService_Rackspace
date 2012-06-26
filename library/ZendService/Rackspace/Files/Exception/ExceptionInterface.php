@@ -13,19 +13,22 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend\Service
- * @subpackage Rackspace
+ * @package    Zend\Service\Rackspace
+ * @subpackage Files
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace Zend\Service\Rackspace;
+namespace Zend\Service\Rackspace\Files\Exception;
+
+use Zend\Service\Rackspace\Exception\ExceptionInterface as RackspaceException;
 
 /**
  * @category   Zend
- * @package    Zend\Service
+ * @package    Zend\Service\Rackspace
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Exception
-{}
+interface ExceptionInterface extends RackspaceException
+{
+}

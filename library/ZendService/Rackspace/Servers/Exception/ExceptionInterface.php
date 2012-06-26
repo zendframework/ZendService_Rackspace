@@ -19,7 +19,9 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace Zend\Service\Rackspace\Servers;
+namespace Zend\Service\Rackspace\Servers\Exception;
+
+use Zend\Service\Rackspace\Exception\ExceptionInterface as RackspaceException;
 
 /**
  * @category   Zend
@@ -27,5 +29,6 @@ namespace Zend\Service\Rackspace\Servers;
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Exception
-{}
+interface ExceptionInterface extends RackspaceException
+{
+}
