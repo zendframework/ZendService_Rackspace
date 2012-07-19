@@ -8,13 +8,13 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace\Servers;
+namespace ZendService\Rackspace\Servers;
 
-use Zend\Service\Rackspace\Servers as RackspaceServers;
+use ZendService\Rackspace\Servers as RackspaceServers;
 
 class SharedIpGroup
 {
-    const ERROR_PARAM_CONSTRUCT  = 'You must pass a Zend\Service\Rackspace\Servers object and an array';
+    const ERROR_PARAM_CONSTRUCT  = 'You must pass a ZendService\Rackspace\Servers object and an array';
     const ERROR_PARAM_NO_NAME    = 'You must pass the image\'s name in the array (name)';
     const ERROR_PARAM_NO_ID      = 'You must pass the image\'s id in the array (id)';
     const ERROR_PARAM_NO_SERVERS = 'The servers parameter must be an array of Ids';
@@ -39,7 +39,7 @@ class SharedIpGroup
     /**
      * The service that has created the image object
      *
-     * @var Zend\Service\Rackspace\Servers
+     * @var ZendService\Rackspace\Servers
      */
     protected $service;
     /**
@@ -109,7 +109,7 @@ class SharedIpGroup
      * Get the server
      *
      * @param integer $id
-     * @return Zend\Service\Rackspace\Servers\Server|boolean
+     * @return ZendService\Rackspace\Servers\Server|boolean
      */
     public function getServer($id)
     {
@@ -127,7 +127,7 @@ class SharedIpGroup
      * @param array $data
      * @param array $metadata
      * @param array $files
-     * @return Zend\Service\Rackspace\Servers\Server|boolean
+     * @return ZendService\Rackspace\Servers\Server|boolean
      */
     public function createServer(array $data, $metadata=array(),$files=array())
     {

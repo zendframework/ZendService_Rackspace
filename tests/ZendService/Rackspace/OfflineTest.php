@@ -8,26 +8,26 @@
  * @package   Zend_Service
  */
 
-namespace ZendTest\Service\Rackspace;
+namespace ZendServiceTest\Rackspace;
 
-use Zend\Service\Rackspace\Files as RackspaceFiles;
-use Zend\Service\Rackspace\Files\ContainerList;
+use ZendService\Rackspace\Files as RackspaceFiles;
+use ZendService\Rackspace\Files\ContainerList;
 use Zend\Http\Client\Adapter\Test as HttpTest;
 
 /**
  * @category   Zend
- * @package    Zend\Service\Rackspace\Files
+ * @package    ZendService\Rackspace\Files
  * @subpackage UnitTests
  * @group      Zend\Service
- * @group      Zend\Service\Rackspace
- * @group      Zend\Service\Rackspace\Files
+ * @group      ZendService\Rackspace
+ * @group      ZendService\Rackspace\Files
  */
 class OfflineTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Reference to RackspaceFiles
      *
-     * @var Zend\Service\Rackspace\Files
+     * @var ZendService\Rackspace\Files
      */
     protected $files;
 
@@ -76,7 +76,7 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     public function testConstructExceptionMissingUserAttribute()
     {
         $this->setExpectedException(
-            'Zend\Service\Rackspace\Exception\InvalidArgumentException',
+            'ZendService\Rackspace\Exception\InvalidArgumentException',
             'The user cannot be empty'
         );
         $file= new RackspaceFiles(null,'bar');
@@ -90,7 +90,7 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     public function testConstructExceptionMissingKeyAttribute()
     {
         $this->setExpectedException(
-            'Zend\Service\Rackspace\Exception\InvalidArgumentException',
+            'ZendService\Rackspace\Exception\InvalidArgumentException',
             'The key cannot be empty'
         );
         $file= new RackspaceFiles('foo',null);
@@ -138,7 +138,7 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     public function testSetInvalidAuthUrl()
     {
         $this->setExpectedException(
-            'Zend\Service\Rackspace\Exception\InvalidArgumentException',
+            'ZendService\Rackspace\Exception\InvalidArgumentException',
             'The authentication URL is not valid'
         );
         $this->files->setAuthUrl('http://test');

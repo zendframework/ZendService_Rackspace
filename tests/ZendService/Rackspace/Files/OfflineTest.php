@@ -8,26 +8,26 @@
  * @package   Zend_Service
  */
 
-namespace ZendTest\Service\Rackspace\Files;
+namespace ZendServiceTest\Rackspace\Files;
 
-use Zend\Service\Rackspace\Files as RackspaceFiles;
-use Zend\Service\Rackspace\Files\ContainerList;
+use ZendService\Rackspace\Files as RackspaceFiles;
+use ZendService\Rackspace\Files\ContainerList;
 use Zend\Http\Client\Adapter\Test as HttpTest;
 
 /**
  * @category   Zend
- * @package    Zend\Service\Rackspace\Files
+ * @package    ZendService\Rackspace\Files
  * @subpackage UnitTests
  * @group      Zend\Service
- * @group      Zend\Service\Rackspace
- * @group      Zend\Service\Rackspace\Files
+ * @group      ZendService\Rackspace
+ * @group      ZendService\Rackspace\Files
  */
 class OfflineTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Reference to RackspaceFiles
      *
-     * @var Zend\Service\Rackspace\Files
+     * @var ZendService\Rackspace\Files
      */
     protected $rackspace;
     /**

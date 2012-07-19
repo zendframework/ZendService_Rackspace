@@ -8,11 +8,11 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace\Files\Exception;
+namespace ZendService\Rackspace\Files\Exception;
 
 /**
  * @category   Zend
- * @package    Zend\Service\Rackspace
+ * @package    ZendService\Rackspace
  * @subpackage Files
  */
 class OutOfBoundsException extends \OutOfBoundsException implements ExceptionInterface

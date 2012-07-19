@@ -8,18 +8,18 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace\Files;
+namespace ZendService\Rackspace\Files;
 
 use ArrayAccess;
 use Countable;
 use Iterator;
-use Zend\Service\Rackspace\Files as RackspaceFiles;
+use ZendService\Rackspace\Files as RackspaceFiles;
 
 /**
  * List of servers retrived from the GoGrid web service
  *
  * @category   Zend
- * @package    Zend\Service\Rackspace
+ * @package    ZendService\Rackspace
  * @subpackage Files
  */
 class ContainerList implements
@@ -28,7 +28,7 @@ class ContainerList implements
     ArrayAccess
 {
     /**
-     * @var array Array of Zend\Service\GoGrid\Object
+     * @var array Array of ZendService\GoGrid\Object
      */
     protected $objects = array();
 

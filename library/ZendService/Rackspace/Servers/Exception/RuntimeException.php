@@ -8,7 +8,7 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace\Servers\Exception;
+namespace ZendService\Rackspace\Servers\Exception;
 
 /**
  * @package    Zend\Service

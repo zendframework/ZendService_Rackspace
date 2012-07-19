@@ -8,10 +8,10 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace;
+namespace ZendService\Rackspace;
 
 use Zend\Http\Client as HttpClient;
-use Zend\Service\Rackspace\Exception;
+use ZendService\Rackspace\Exception;
 
 abstract class AbstractRackspace
 {
@@ -19,7 +19,7 @@ abstract class AbstractRackspace
     const US_AUTH_URL            = 'https://auth.api.rackspacecloud.com';
     const UK_AUTH_URL            = 'https://lon.auth.api.rackspacecloud.com';
     const API_FORMAT             = 'json';
-    const USER_AGENT             = 'Zend\Service\Rackspace';
+    const USER_AGENT             = 'ZendService\Rackspace';
     const STORAGE_URL            = "X-Storage-Url";
     const AUTHTOKEN              = "X-Auth-Token";
     const AUTHUSER_HEADER        = "X-Auth-User";

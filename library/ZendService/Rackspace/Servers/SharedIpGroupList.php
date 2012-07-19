@@ -8,21 +8,21 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace\Servers;
+namespace ZendService\Rackspace\Servers;
 
-use Zend\Service\Rackspace\Servers as RackspaceServers;
+use ZendService\Rackspace\Servers as RackspaceServers;
 
 /**
  * List of shared Ip group of Rackspace
  *
  * @category   Zend
- * @package    Zend\Service\Rackspace
+ * @package    ZendService\Rackspace
  * @subpackage Servers
  */
 class SharedIpGroupList implements \Countable, \Iterator, \ArrayAccess
 {
     /**
-     * @var array of Zend\Service\Rackspace\Servers\SharedIpGroup
+     * @var array of ZendService\Rackspace\Servers\SharedIpGroup
      */
     protected $shared = array();
     /**
@@ -30,7 +30,7 @@ class SharedIpGroupList implements \Countable, \Iterator, \ArrayAccess
      */
     protected $iteratorKey = 0;
     /**
-     * @var Zend\Service\Rackspace\Servers
+     * @var ZendService\Rackspace\Servers
      */
     protected $service;
     /**
@@ -43,7 +43,7 @@ class SharedIpGroupList implements \Countable, \Iterator, \ArrayAccess
     public function __construct(RackspaceServers $service,$list = array())
     {
         if (!($service instanceof RackspaceServers) || !is_array($list)) {
-            throw new Exception\InvalidArgumentException("You must pass a Zend\Service\Rackspace\Servers object and an array");
+            throw new Exception\InvalidArgumentException("You must pass a ZendService\Rackspace\Servers object and an array");
         }
         $this->service= $service;
         $this->constructFromArray($list);
@@ -63,8 +63,8 @@ class SharedIpGroupList implements \Countable, \Iterator, \ArrayAccess
     /**
      * Add a shared Ip group
      *
-     * @param  Zend\Service\Rackspace\Servers\SharedIpGroup $shared
-     * @return Zend\Service\Rackspace\Servers\SharedIpGroupList
+     * @param  ZendService\Rackspace\Servers\SharedIpGroup $shared
+     * @return ZendService\Rackspace\Servers\SharedIpGroupList
      */
     protected function addSharedIpGroup (SharedIpGroup $share)
     {
@@ -100,7 +100,7 @@ class SharedIpGroupList implements \Countable, \Iterator, \ArrayAccess
      *
      * Implement Iterator::current()
      *
-     * @return Zend\Service\Rackspace\Servers\SharedIpGroup
+     * @return ZendService\Rackspace\Servers\SharedIpGroup
      */
     public function current()
     {
@@ -174,7 +174,7 @@ class SharedIpGroupList implements \Countable, \Iterator, \ArrayAccess
      *
      * @param   int  $offset
      * @throws  OutOfBoundsException
-     * @return  Zend\Service\Rackspace\Servers\SharedIpGroup
+     * @return  ZendService\Rackspace\Servers\SharedIpGroup
      */
     public function offsetGet($offset)
     {
@@ -192,7 +192,7 @@ class SharedIpGroupList implements \Countable, \Iterator, \ArrayAccess
      *
      * @param   int     $offset
      * @param   string  $value
-     * @throws  Zend\Service\Rackspace\Exception
+     * @throws  ZendService\Rackspace\Exception
      */
     public function offsetSet($offset, $value)
     {
@@ -205,7 +205,7 @@ class SharedIpGroupList implements \Countable, \Iterator, \ArrayAccess
      * Implement ArrayAccess::offsetUnset()
      *
      * @param  int $offset
-     * @throws Zend\Service\Rackspace\Exception
+     * @throws ZendService\Rackspace\Exception
      */
     public function offsetUnset($offset)
     {

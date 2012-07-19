@@ -8,10 +8,10 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace\Files\Exception;
+namespace ZendService\Rackspace\Files\Exception;
 
 /**
- * @package    Zend\Service\Rackspace
+ * @package    ZendService\Rackspace
  * @subpackage Files
  */
 class RuntimeException  extends \RuntimeException implements ExceptionInterface

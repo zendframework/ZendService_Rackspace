@@ -8,14 +8,14 @@
  * @package   Zend_Service
  */
 
-namespace ZendTest\Service\Rackspace\Servers;
+namespace ZendServiceTest\Rackspace\Servers;
 
-use Zend\Service\Rackspace\Servers;
+use ZendService\Rackspace\Servers;
 
 
 /**
  * @category   Zend
- * @package    Zend\Service\Rackspace\Servers
+ * @package    ZendService\Rackspace\Servers
  * @subpackage UnitTests
  * @group      Zend_Service
  * @group      Zend_Service_Amazon
@@ -25,7 +25,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
     /**
      * Reference to Rackspace Servers object
      *
-     * @var Zend\Service\Rackspace\Servers
+     * @var ZendService\Rackspace\Servers
      */
     protected $rackspace;
 
@@ -46,7 +46,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
     /**
      * List of images available
      *
-     * @var Zend\Service\Rackspace\Servers\ImageList
+     * @var ZendService\Rackspace\Servers\ImageList
      */
     protected $images;
 
@@ -74,7 +74,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
     /**
      * Shared Ip group
      *
-     * @var Zend\Service\Rackspace\Servers\SharedIpGroup
+     * @var ZendService\Rackspace\Servers\SharedIpGroup
      */
     protected $sharedIpGroup;
 
@@ -93,7 +93,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         if (!constant('TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_ENABLED') || TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_ENABLED != true) {
-            $this->markTestSkipped('Zend\Service\Rackspace\Servers online tests are not enabled');
+            $this->markTestSkipped('ZendService\Rackspace\Servers online tests are not enabled');
         }
         if(!defined('TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_USER') || !defined('TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_KEY')) {
             self::markTestSkipped('Constants User and Key have to be set.');
@@ -440,16 +440,16 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
 
 /**
  * @category   Zend
- * @package    Zend\Service\Rackspace\Servers
+ * @package    ZendService\Rackspace\Servers
  * @subpackage UnitTests
  * @group      Zend\Service
- * @group      Zend\Service\Rackspace
+ * @group      ZendService\Rackspace
  */
 class Skip extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->markTestSkipped('Zend\Service\Rackspace\Servers online tests not enabled with an access key ID in '
+        $this->markTestSkipped('ZendService\Rackspace\Servers online tests not enabled with an access key ID in '
                              . 'TestConfiguration.php');
     }
 

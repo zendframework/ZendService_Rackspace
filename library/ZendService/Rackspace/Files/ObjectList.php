@@ -8,22 +8,22 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace\Files;
+namespace ZendService\Rackspace\Files;
 
-use Zend\Service\Rackspace\Files as RackspaceFiles;
-use Zend\Service\Rackspace\Files\Object;
+use ZendService\Rackspace\Files as RackspaceFiles;
+use ZendService\Rackspace\Files\Object;
 
 /**
  * List of servers retrived from the GoGrid web service
  *
  * @category   Zend
- * @package    Zend\Service\Rackspace
+ * @package    ZendService\Rackspace
  * @subpackage Files
  */
 class ObjectList implements \Countable, \Iterator, \ArrayAccess
 {
     /**
-     * @var array of Zend\Service\GoGrid\Object
+     * @var array of ZendService\GoGrid\Object
      */
     protected $objects = array();
     /**
@@ -77,8 +77,8 @@ class ObjectList implements \Countable, \Iterator, \ArrayAccess
     /**
      * Add an object
      *
-     * @param  Zend\Service\Rackspace\Files\Object $obj
-     * @return Zend\Service\Rackspace\Files\ObjectList
+     * @param  ZendService\Rackspace\Files\Object $obj
+     * @return ZendService\Rackspace\Files\ObjectList
      */
     protected function _addObject (Object $obj)
     {
@@ -101,7 +101,7 @@ class ObjectList implements \Countable, \Iterator, \ArrayAccess
      *
      * Implement Iterator::current()
      *
-     * @return Zend\Service\Rackspace\Files\Object
+     * @return ZendService\Rackspace\Files\Object
      */
     public function current()
     {
@@ -175,7 +175,7 @@ class ObjectList implements \Countable, \Iterator, \ArrayAccess
      *
      * @param   int     $offset
      * @throws  OutOfBoundsException
-     * @return  Zend\Service\Rackspace\Files\Object
+     * @return  ZendService\Rackspace\Files\Object
      */
     public function offsetGet($offset)
     {
@@ -193,7 +193,7 @@ class ObjectList implements \Countable, \Iterator, \ArrayAccess
      *
      * @param   int     $offset
      * @param   string  $value
-     * @throws  Zend\Service\Rackspace\Exception
+     * @throws  ZendService\Rackspace\Exception
      */
     public function offsetSet($offset, $value)
     {
@@ -206,7 +206,7 @@ class ObjectList implements \Countable, \Iterator, \ArrayAccess
      * Implement ArrayAccess::offsetUnset()
      *
      * @param   int     $offset
-     * @throws  Zend\Service\Rackspace\Exception
+     * @throws  ZendService\Rackspace\Exception
      */
     public function offsetUnset($offset)
     {

@@ -8,7 +8,7 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace;
+namespace ZendService\Rackspace;
 
 use Zend\Http\Client as HttpClient;
 use Zend\Validator\Ip as IpValidator;

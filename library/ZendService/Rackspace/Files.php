@@ -8,7 +8,7 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace;
+namespace ZendService\Rackspace;
 
 class Files extends AbstractRackspace
 {
@@ -86,7 +86,7 @@ class Files extends AbstractRackspace
      * Get all the containers
      *
      * @param array $options
-     * @return Zend\Service\Rackspace\Files\ContainerList|boolean
+     * @return ZendService\Rackspace\Files\ContainerList|boolean
      */
     public function getContainers($options=array())
     {
@@ -137,7 +137,7 @@ class Files extends AbstractRackspace
      *
      * @param string $container
      * @param array $options
-     * @return  Zend\Service\Rackspace\Files\ObjectList|boolean
+     * @return  ZendService\Rackspace\Files\ObjectList|boolean
      */
     public function getObjects($container,$options=array())
     {
@@ -155,7 +155,7 @@ class Files extends AbstractRackspace
      *
      * @param string $container
      * @param array $metadata
-     * @return Zend\Service\Rackspace\Files\Container|boolean
+     * @return ZendService\Rackspace\Files\Container|boolean
      */
     public function createContainer($container,$metadata=array())
     {
@@ -276,7 +276,7 @@ class Files extends AbstractRackspace
      * @param string $container
      * @param string $object
      * @param array $headers
-     * @return Zend\Service\Rackspace\Files\Object|boolean
+     * @return ZendService\Rackspace\Files\Object|boolean
      */
     public function getObject($container,$object,$headers=array())
     {

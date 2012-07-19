@@ -8,15 +8,15 @@
  * @package   Zend_Service
  */
 
-namespace ZendTest\Service\Rackspace\Servers;
+namespace ZendServiceTest\Rackspace\Servers;
 
-use Zend\Service\Rackspace\Servers;
+use ZendService\Rackspace\Servers;
 use Zend\Http\Client\Adapter\Test as HttpTest;
 
 
 /**
  * @category   Zend
- * @package    Zend\Service\Rackspace\Servers
+ * @package    ZendService\Rackspace\Servers
  * @subpackage UnitTests
  * @group      Zend_Service
  * @group      Zend_Service_Amazon
@@ -26,7 +26,7 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     /**
      * Reference to Rackspace Servers object
      *
-     * @var Zend\Service\Rackspace\Servers
+     * @var ZendService\Rackspace\Servers
      */
     protected $rackspace;
 
@@ -47,7 +47,7 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     /**
      * List of images available
      *
-     * @var Zend\Service\Rackspace\Servers\ImageList
+     * @var ZendService\Rackspace\Servers\ImageList
      */
     protected static $images;
 
@@ -75,7 +75,7 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     /**
      * Shared Ip group
      *
-     * @var Zend\Service\Rackspace\Servers\SharedIpGroup
+     * @var ZendService\Rackspace\Servers\SharedIpGroup
      */
     protected static $sharedIpGroup;
 

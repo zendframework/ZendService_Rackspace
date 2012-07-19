@@ -8,13 +8,13 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace\Files\Exception;
+namespace ZendService\Rackspace\Files\Exception;
 
-use Zend\Service\Rackspace\Exception\ExceptionInterface as RackspaceException;
+use ZendService\Rackspace\Exception\ExceptionInterface as RackspaceException;
 
 /**
  * @category   Zend
- * @package    Zend\Service\Rackspace
+ * @package    ZendService\Rackspace
  */
 interface ExceptionInterface extends RackspaceException
 {

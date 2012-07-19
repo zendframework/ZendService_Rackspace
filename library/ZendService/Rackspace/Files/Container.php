@@ -8,13 +8,13 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace\Files;
+namespace ZendService\Rackspace\Files;
 
-use Zend\Service\Rackspace\Files as RackspaceFiles;
+use ZendService\Rackspace\Files as RackspaceFiles;
 
 class Container
 {
-    const ERROR_PARAM_FILE_CONSTRUCT  = 'The Zend\Service\Rackspace\Files passed in construction is not valid';
+    const ERROR_PARAM_FILE_CONSTRUCT  = 'The ZendService\Rackspace\Files passed in construction is not valid';
     const ERROR_PARAM_ARRAY_CONSTRUCT = 'The array passed in construction is not valid';
     const ERROR_PARAM_NO_NAME         = 'The container name is empty';
     /**
@@ -179,7 +179,7 @@ class Container
     /**
      * Get all the object of the container
      *
-     * @return Zend\Service\Rackspace\Files\ObjectList
+     * @return ZendService\Rackspace\Files\ObjectList
      */
     public function getObjects()
     {
@@ -190,7 +190,7 @@ class Container
      *
      * @param string $name
      * @param array $headers
-     * @return Zend\Service\Rackspace\Files\Object|boolean
+     * @return ZendService\Rackspace\Files\Object|boolean
      */
     public function getObject($name, $headers=array())
     {

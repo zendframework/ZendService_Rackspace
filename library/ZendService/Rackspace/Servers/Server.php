@@ -8,13 +8,13 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace\Servers;
+namespace ZendService\Rackspace\Servers;
 
-use Zend\Service\Rackspace\Servers as RackspaceServers;
+use ZendService\Rackspace\Servers as RackspaceServers;
 
 class Server
 {
-    const ERROR_PARAM_CONSTRUCT = 'You must pass a Zend\Service\Rackspace\Servers object and an array';
+    const ERROR_PARAM_CONSTRUCT = 'You must pass a ZendService\Rackspace\Servers object and an array';
     const ERROR_PARAM_NO_NAME   = 'You must pass the server\'s name in the array (name)';
     const ERROR_PARAM_NO_ID     = 'You must pass the server\'s id in the array (id)';
     /**
@@ -78,7 +78,7 @@ class Server
     /**
      * The service that has created the server object
      *
-     * @var Zend\Service\Rackspace\Servers
+     * @var ZendService\Rackspace\Servers
      */
     protected $service;
     /**

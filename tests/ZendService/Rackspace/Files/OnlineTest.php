@@ -8,26 +8,26 @@
  * @package   Zend_Service
  */
 
-namespace ZendTest\Service\Rackspace\Files;
+namespace ZendServiceTest\Rackspace\Files;
 
-use Zend\Service\Rackspace\Files as RackspaceFiles;
-use Zend\Service\Rackspace\Files\ContainerList;
+use ZendService\Rackspace\Files as RackspaceFiles;
+use ZendService\Rackspace\Files\ContainerList;
 use Zend\Http\Client\Adapter\Test as HttpTest;
 
 /**
  * @category   Zend
- * @package    Zend\Service\Rackspace\Files
+ * @package    ZendService\Rackspace\Files
  * @subpackage UnitTests
  * @group      Zend\Service
- * @group      Zend\Service\Rackspace
- * @group      Zend\Service\Rackspace\Files
+ * @group      ZendService\Rackspace
+ * @group      ZendService\Rackspace\Files
  */
 class OnlineTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Reference to Rackspace Servers object
      *
-     * @var Zend\Service\Rackspace\Servers
+     * @var ZendService\Rackspace\Servers
      */
     protected $rackspace;
 
@@ -60,7 +60,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         if (!constant('TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_ENABLED') || TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_ENABLED != true) {
-            $this->markTestSkipped('Zend\Service\Rackspace\TFiles online tests are not enabled');
+            $this->markTestSkipped('ZendService\Rackspace\TFiles online tests are not enabled');
         }
         if(!defined('TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_USER') || !defined('TESTS_ZEND_SERVICE_RACKSPACE_ONLINE_KEY')) {
             $this->markTestSkipped('Constants User and Key have to be set.');

@@ -8,16 +8,16 @@
  * @package   Zend_Service
  */
 
-namespace Zend\Service\Rackspace\Files;
+namespace ZendService\Rackspace\Files;
 
-use Zend\Service\Rackspace\Files as RackspaceFiles;
+use ZendService\Rackspace\Files as RackspaceFiles;
 
 class Object
 {
     /**
      * The service that has created the object
      *
-     * @var Zend\Service\Rackspace\Files
+     * @var ZendService\Rackspace\Files
      */
     protected $service;
     /**
