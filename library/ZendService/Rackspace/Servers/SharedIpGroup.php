@@ -45,8 +45,8 @@ class SharedIpGroup
     /**
      * Construct
      *
+     * @param RackspaceServers $service
      * @param array $data
-     * @return void
      */
     public function __construct(RackspaceServers $service, $data)
     {
