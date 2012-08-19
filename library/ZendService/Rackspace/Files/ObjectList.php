@@ -14,7 +14,7 @@ use ZendService\Rackspace\Files as RackspaceFiles;
 use ZendService\Rackspace\Files\Object;
 
 /**
- * List of servers retrived from the GoGrid web service
+ * List of objects retrived from the Rackspace CDN web service
  *
  * @category   Zend
  * @package    ZendService\Rackspace
@@ -23,7 +23,7 @@ use ZendService\Rackspace\Files\Object;
 class ObjectList implements \Countable, \Iterator, \ArrayAccess
 {
     /**
-     * @var array of ZendService\GoGrid\Object
+     * @var array of ZendService\Rackspace\Files\Object
      */
     protected $objects = array();
     /**
@@ -43,7 +43,9 @@ class ObjectList implements \Countable, \Iterator, \ArrayAccess
     /**
      * __construct()
      *
-     * @param  array $list
+     * @param RackspaceFiles $service
+     * @param array $list
+     * @param string $container
      * @return boolean
      */
     public function __construct(RackspaceFiles $service,$list,$container)

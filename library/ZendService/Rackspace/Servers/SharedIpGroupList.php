@@ -38,7 +38,6 @@ class SharedIpGroupList implements \Countable, \Iterator, \ArrayAccess
      *
      * @param  RackspaceServers $service
      * @param  array $list
-     * @return void
      */
     public function __construct(RackspaceServers $service,$list = array())
     {
@@ -63,7 +62,7 @@ class SharedIpGroupList implements \Countable, \Iterator, \ArrayAccess
     /**
      * Add a shared Ip group
      *
-     * @param  ZendService\Rackspace\Servers\SharedIpGroup $shared
+     * @param  ZendService\Rackspace\Servers\SharedIpGroup $share
      * @return ZendService\Rackspace\Servers\SharedIpGroupList
      */
     protected function addSharedIpGroup (SharedIpGroup $share)

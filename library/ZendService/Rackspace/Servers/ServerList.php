@@ -38,7 +38,6 @@ class ServerList implements \Countable, \Iterator, \ArrayAccess
      *
      * @param  RackspaceServers $service
      * @param  array $list
-     * @return void
      */
     public function __construct(RackspaceServers $service,$list = array())
     {
