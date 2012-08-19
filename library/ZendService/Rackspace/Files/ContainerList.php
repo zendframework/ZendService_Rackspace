@@ -16,7 +16,7 @@ use Iterator;
 use ZendService\Rackspace\Files as RackspaceFiles;
 
 /**
- * List of servers retrived from the GoGrid web service
+ * List of containers retrived from the Rackspace CDN web service
  *
  * @category   Zend
  * @package    ZendService\Rackspace
@@ -28,7 +28,7 @@ class ContainerList implements
     ArrayAccess
 {
     /**
-     * @var array Array of ZendService\GoGrid\Object
+     * @var array Array of ZendService\Rackspace\Files\Container
      */
     protected $objects = array();
 

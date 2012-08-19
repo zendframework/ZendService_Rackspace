@@ -260,7 +260,7 @@ class Files extends AbstractRackspace
      * Get a container
      *
      * @param string $container
-     * @return Container|boolean
+     * @return Files\Container|boolean
      */
     public function getContainer($container)
     {
@@ -500,7 +500,7 @@ class Files extends AbstractRackspace
             throw new Exception\InvalidArgumentException(self::ERROR_PARAM_NO_NAME_OBJECT);
         }
         if (empty($metadata) || !is_array($metadata)) {
-            throw new Exception\InvalidArgumentException(self::ERROR_PARAM_NO_NAME_OBJECT);
+            throw new Exception\InvalidArgumentException(self::ERROR_PARAM_NO_METADATA);
         }
         $headers=array();
         foreach ($metadata as $key => $value) {
