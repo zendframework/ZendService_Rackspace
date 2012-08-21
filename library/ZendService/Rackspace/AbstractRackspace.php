@@ -107,6 +107,7 @@ abstract class AbstractRackspace
      * @param string $user
      * @param string $key
      * @param string $authUrl
+     * @param HttpClient $httpClient
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($user, $key, $authUrl = self::US_AUTH_URL, HttpClient $httpClient = null)
@@ -316,7 +317,7 @@ abstract class AbstractRackspace
      * @param string $url
      * @param string $method
      * @param array $headers
-     * @param array $get
+     * @param array $data
      * @param string $body
      * @return Zend\Http\Response
      */

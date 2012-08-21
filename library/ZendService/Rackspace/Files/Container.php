@@ -25,7 +25,7 @@ class Container
      * Construct
      *
      * @param RackspaceFiles $service
-     * @param string $name
+     * @param array $data
      */
     public function __construct(RackspaceFiles $service, $data)
     {
