@@ -984,8 +984,8 @@ class Servers extends AbstractRackspace
             case '200' :
             case '203' : // break intentionally omitted
                 $backup = json_decode($result->getBody(),true);
-                if (isset($image['backupSchedule'])) {
-                    return $image['backupSchedule'];
+                if (isset($backup['backupSchedule'])) {
+                    return $backup['backupSchedule'];
                 }
                 break;
             case '503' :
