@@ -12,6 +12,7 @@ namespace ZendServiceTest\Rackspace\Files;
 
 use ZendService\Rackspace\Files as RackspaceFiles;
 use ZendService\Rackspace\Files\ContainerList;
+use ZendService\Rackspace\Files\Container as RackspaceContainer;
 use Zend\Http\Client\Adapter\Test as HttpTest;
 
 /**
@@ -49,6 +50,12 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
      */
     protected $metadata2;
     /**
+     * Reference to Container
+     *
+     * @var ZendService\Rackspace\Files\Container
+     */
+    protected $container;
+    /**
      * Set up the test case
      *
      * @return void
@@ -56,6 +63,7 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->rackspace = new RackspaceFiles('foo','bar');
+        $this->container = new RackspaceContainer($this->rackspace, array('name' => TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME));
 
         $this->httpClientAdapterTest = new HttpTest();
 
@@ -234,6 +242,36 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
     {
         $data= $this->rackspace->updateCdnContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,null,false);
         $this->assertTrue($data!==false);
+    }
+
+    public function testGetInfoCdnContainer()
+    {
+        $info = $this->rackspace->getInfoCdnContainer(TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME);
+        $this->assertTrue($info!==false);
+        $this->assertTrue(is_array($info));
+        $this->assertTrue(!empty($info['ttl']));
+        $this->assertTrue(!empty($info['cdn_uri']));
+        $this->assertTrue(!empty($info['cdn_uri_ssl']));
+        $this->assertTrue($info['cdn_enabled']===true);
+        $this->assertTrue($info['log_retention']===true);
+    }
+
+    public function testGetCdnTtl()
+    {
+        $ttl = $this->container->getCdnTtl();
+        $this->assertTrue($ttl!==false);
+    }
+
+    public function testGetCdnUri()
+    {
+        $uri = $this->container->getCdnUri();
+        $this->assertTrue($uri!==false);
+    }
+
+    public function testGetCdnUriSsl()
+    {
+        $uri = $this->container->getCdnUriSsl();
+        $this->assertTrue($uri!==false);
     }
 
 

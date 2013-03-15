@@ -97,7 +97,7 @@ class Container
     public function getCdnTtl()
     {
         $data = $this->getCdnInfo();
-        if (!isset($data['ttl'])) {
+        if (isset($data['ttl'])) {
             return $data['ttl'];
         }
         return false;
@@ -110,7 +110,7 @@ class Container
     public function isCdnLogEnabled()
     {
         $data = $this->getCdnInfo();
-        if (!isset($data['log_retention'])) {
+        if (isset($data['log_retention'])) {
             return $data['log_retention'];
         }
         return false;
@@ -123,7 +123,7 @@ class Container
     public function getCdnUri()
     {
         $data = $this->getCdnInfo();
-        if (!isset($data['cdn_uri'])) {
+        if (isset($data['cdn_uri'])) {
             return $data['cdn_uri'];
         }
         return false;
@@ -136,7 +136,7 @@ class Container
     public function getCdnUriSsl()
     {
         $data = $this->getCdnInfo();
-        if (!isset($data['cdn_uri_ssl'])) {
+        if (isset($data['cdn_uri_ssl'])) {
             return $data['cdn_uri_ssl'];
         }
         return false;
