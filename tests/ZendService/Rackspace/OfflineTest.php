@@ -181,4 +181,15 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->files->getErrorMsg(),'Bad username or password');
 
     }
+    
+    public function testSetServiceNet()
+    {
+        $this->files->setServiceNet();
+        $this->files->getHttpClient()
+                    ->setAdapter($this->httpClientAdapterTest);
+
+        $this->httpClientAdapterTest->setResponse($this->_loadResponse(__FUNCTION__));
+        $this->files->authenticate();
+        $this->assertEquals($this->files->getStorageUrl(),'https://snet-storage101.ord1.clouddrive.com/v1/test','The storage URL is not valid');
+    }
 }
