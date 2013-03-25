@@ -174,7 +174,6 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
                                               TESTS_ZEND_SERVICE_RACKSPACE_CONTAINER_NAME,
                                               TESTS_ZEND_SERVICE_RACKSPACE_OBJECT_NAME.'-copy');
         $this->assertTrue($result);
-        $this->assertNotContains('application/x-www-form-urlencoded', $this->rackspace->getHttpClient()->getLastRawRequest());
     }
 
     public function testGetObjects()

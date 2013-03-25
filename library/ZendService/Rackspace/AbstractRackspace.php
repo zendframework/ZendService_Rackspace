@@ -347,9 +347,6 @@ abstract class AbstractRackspace
         if (empty($headers[self::AUTHUSER_HEADER])) {
             $headers[self::AUTHTOKEN]= $this->getToken();
         }
-        if (empty($headers['Content-Type']) && $method == 'PUT' && empty($body)) {
-            $headers['Content-Type'] = '';
-        }
         $client->setMethod($method);
         if (empty($data['format'])) {
             $data['format']= self::API_FORMAT;
