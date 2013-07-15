@@ -64,6 +64,11 @@ abstract class AbstractRackspace
     protected $httpClient;
 
     /**
+     * @var boolean
+     */
+    protected $useServiceNet = false;
+    
+    /**
      * Error Msg
      *
      * @var string
@@ -136,7 +141,21 @@ abstract class AbstractRackspace
         $this->httpClient = $httpClient;
         return $this;
     }
-
+    
+    /**
+     * Sets whether to use ServiceNet
+     * 
+     * ServiceNet is Rackspace's internal network. Bandwidth on ServiceNet is
+     * not charged.
+     * 
+     * @param boolean $useServiceNet
+     */
+    public function setServiceNet($useServiceNet = true)
+    {
+        $this->useServiceNet = $useServiceNet;
+        return $this;
+    }
+    
     /**
      * get the HttpClient instance
      *
@@ -364,6 +383,9 @@ abstract class AbstractRackspace
         if ($result->getStatusCode()===204) {
             $this->token = $result->getHeaders()->get(self::AUTHTOKEN)->getFieldValue();
             $this->storageUrl = $result->getHeaders()->get(self::STORAGE_URL)->getFieldValue();
+            if ($this->useServiceNet) {
+                $this->storageUrl = "https://snet-" . substr($this->storageUrl, strlen("https://"));
+            }
             $this->cdnUrl = $result->getHeaders()->get(self::CDNM_URL)->getFieldValue();
             $this->managementUrl = $result->getHeaders()->get(self::MANAGEMENT_URL)->getFieldValue();
             return true;
