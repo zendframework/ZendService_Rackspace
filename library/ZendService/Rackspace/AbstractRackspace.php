@@ -143,6 +143,16 @@ abstract class AbstractRackspace
     }
     
     /**
+     * get the HttpClient instance
+     *
+     * @return HttpClient
+     */
+    public function getHttpClient()
+    {
+        return $this->httpClient;
+    }
+
+    /**
      * Sets whether to use ServiceNet
      * 
      * ServiceNet is Rackspace's internal network. Bandwidth on ServiceNet is
@@ -157,13 +167,13 @@ abstract class AbstractRackspace
     }
     
     /**
-     * get the HttpClient instance
-     *
-     * @return HttpClient
+     * Get whether we're using ServiceNet
+     * 
+     * @return boolean
      */
-    public function getHttpClient()
+    public function getServiceNet()
     {
-        return $this->httpClient;
+        return $this->useServiceNet;
     }
 
     /**
