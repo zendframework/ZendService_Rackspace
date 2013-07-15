@@ -317,9 +317,11 @@ class Files extends AbstractRackspace
      * @param string $object
      * @param string $content
      * @param array $metadata
+     * @param string $content_type
+     *
      * @return boolean
      */
-    public function storeObject($container,$object,$content,$metadata=array())
+    public function storeObject($container,$object,$content,$metadata=array(),$content_type=null)
     {
         if (empty($container)) {
             throw new Exception\InvalidArgumentException(self::ERROR_PARAM_NO_NAME_CONTAINER);
@@ -329,6 +331,9 @@ class Files extends AbstractRackspace
         }
         if (empty($content)) {
             throw new Exception\InvalidArgumentException(self::ERROR_PARAM_NO_CONTENT);
+        }
+        if (!empty($content_type)) {
+            $headers[self::HEADER_CONTENT_TYPE]= $content_type;
         }
         if (!empty($metadata) && is_array($metadata)) {
             foreach ($metadata as $key => $value) {
