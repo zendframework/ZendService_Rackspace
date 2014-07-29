@@ -28,7 +28,7 @@ class Files extends AbstractRackspace
     const ERROR_PARAM_NO_METADATA              = 'You must specify the metadata array';
     const ERROR_CDN_TTL_OUT_OF_RANGE           = 'TTL must be a number in seconds, min is 900 sec and maximum is 1577836800 (50 years)';
     const ERROR_PARAM_UPDATE_CDN               = 'You must specify at least one the parameters: ttl, cdn_enabled or log_retention';
-    const HEADER_CONTENT_TYPE                  = 'Content-type';
+    const HEADER_CONTENT_TYPE                  = 'Content-Type';
     const HEADER_HASH                          = 'Etag';
     const HEADER_LAST_MODIFIED                 = 'Last-modified';
     const HEADER_CONTENT_LENGTH                = 'Content-length';
