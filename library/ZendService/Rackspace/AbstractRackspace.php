@@ -397,7 +397,8 @@ abstract class AbstractRackspace
                 $this->storageUrl = "https://snet-" . substr($this->storageUrl, strlen("https://"));
             }
             $this->cdnUrl = $result->getHeaders()->get(self::CDNM_URL)->getFieldValue();
-            $this->managementUrl = $result->getHeaders()->get(self::MANAGEMENT_URL)->getFieldValue();
+            $this->managementUrl = !empty($result->getHeaders()->get(self::MANAGEMENT_URL)) ?
+                $result->getHeaders()->get(self::MANAGEMENT_URL)->getFieldValue() : "";
             return true;
         }
         $this->errorMsg = $result->getBody();
